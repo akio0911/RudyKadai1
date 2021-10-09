@@ -56,6 +56,7 @@ struct ContentView: View {
     func textDidEndEditing(_ notification: Notification) {
         let textField = notification.object as! UITextField
         textField.sendActions(for: .editingDidEndOnExit)
+        
     }
 
 }
