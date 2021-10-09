@@ -45,7 +45,9 @@ struct ContentView: View {
     // returnを押さなくても値を反映させる
     // Ref https://zenn.dev/konomae/articles/2f9182561b1372
     func textDidEndEditing(_ notification: Notification) {
-        let textField = notification.object as! UITextField
+        guard let textField = notification.object as? UITextField else {
+            return
+        }
         textField.sendActions(for: .editingDidEndOnExit)
     }
 }
