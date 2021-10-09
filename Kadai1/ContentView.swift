@@ -9,7 +9,7 @@ import SwiftUI
 let numOfForms: Int = 5
 
 struct ContentView: View {
-    @State private var inputNums: [Int] = Array(repeating: 0, count: numOfForms)
+    @State private var inputNums: [Int?] = Array(repeating: nil, count: numOfForms)
     @State private var ans: String = "Label"
     var body: some View {
         ZStack {
@@ -23,7 +23,7 @@ struct ContentView: View {
             // TextField, Button, Labelを配置
             VStack(alignment: .leading, spacing: 10) {
                 ForEach(0..<5) {index in
-                    TextField("input num",
+                    TextField("",
                               value: $inputNums[index],
                               formatter: NumberFormatter())
                         .onReceive(
@@ -34,7 +34,7 @@ struct ContentView: View {
                 }
                 Button(action: {
                     UIApplication.shared.closeKeyboard()
-                    self.ans = String(inputNums.reduce(0, +))
+                    self.ans = String(inputNums.compactMap {$0}.reduce(0, +))
                 }, label: {
                     Text("Button")
                 })
