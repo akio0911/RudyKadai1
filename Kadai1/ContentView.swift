@@ -9,8 +9,8 @@ import SwiftUI
 let numOfForms: Int = 5
 
 struct ContentView: View {
-    @State var inputNums: [Int] = Array(repeating: 0, count: numOfForms)
-    @State var ans: String = "Label"
+    @State private var inputNums: [Int] = Array(repeating: 0, count: numOfForms)
+    @State private var ans: String = "Label"
     var body: some View {
         ZStack {
             // 画面をタップするとキーボードを閉じる & 入力が確定する
