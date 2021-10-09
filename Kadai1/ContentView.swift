@@ -11,9 +11,8 @@ let numOfForms: Int = 5
 struct ContentView: View {
     @State var inputNums: [Int] = Array(repeating: 0, count: numOfForms)
     @State var ans: String = "Label"
-    
     var body: some View {
-        ZStack{
+        ZStack {
             // 画面をタップするとキーボードを閉じる & 入力が確定する
             Color.white.opacity(0.01)
                 .edgesIgnoringSafeArea(.all)
@@ -21,11 +20,9 @@ struct ContentView: View {
                     UIApplication.shared.closeKeyboard()
                     print("tapped")
                 }
-            
             // TextField, Button, Labelを配置
             VStack(alignment: .leading, spacing: 10) {
-                
-                ForEach (0..<5) { index in
+                ForEach(0..<5) {index in
                     TextField("input num",
                               value: $inputNums[index],
                               formatter: NumberFormatter())
@@ -34,33 +31,24 @@ struct ContentView: View {
                                 perform: textDidEndEditing)
                         .keyboardType(.numberPad)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-
                 }
-                
                 Button(action: {
                     UIApplication.shared.closeKeyboard()
                     self.ans = String(inputNums.reduce(0, +))
                 }, label: {
                     Text("Button")
                 })
-                
                 Text(self.ans)
-                
             }.padding()
         }
-
     }
-    
     // returnを押さなくても値を反映させる
     // Ref https://zenn.dev/konomae/articles/2f9182561b1372
     func textDidEndEditing(_ notification: Notification) {
         let textField = notification.object as! UITextField
         textField.sendActions(for: .editingDidEndOnExit)
-        
     }
-
 }
-
 
 // 画面をタップするとキーボードを閉じる & 入力が確定する
 extension UIApplication {
