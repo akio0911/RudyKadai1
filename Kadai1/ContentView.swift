@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
-let numOfForms: Int = 5
 
 struct ContentView: View {
-    @State private var inputNums: [Int?] = Array(repeating: nil, count: numOfForms)
-    @State private var inputTextNums: [String] = Array(repeating: "", count: numOfForms)
-    @State private var ans: String = "Label"
+    @State private var inputNumberTextList: [String] = Array(repeating: "", count: Self.numberOfForms)
+    @State private var answerText: String = "Label"
+
+    private static let numberOfForms: Int = 5
+
     var body: some View {
         ZStack {
             // 画面をタップするとキーボードを閉じる & 入力が確定する
@@ -23,19 +24,18 @@ struct ContentView: View {
                 }
             // TextField, Button, Labelを配置
             VStack(alignment: .leading, spacing: 10) {
-                ForEach(0..<5) {index in
-                    TextField("", text: $inputTextNums[index])
+                ForEach(0..<Self.numberOfForms) { index in
+                    TextField("", text: $inputNumberTextList[index])
                         .keyboardType(.numberPad)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                 }
                 Button(action: {
                     UIApplication.shared.closeKeyboard()
-                    self.ans = String(inputTextNums.compactMap {Int($0)}.reduce(0, +))
-//                    self.ans = String(inputNums.compactMap {$0}.reduce(0, +))
+                    answerText = String(inputNumberTextList.compactMap { Int($0) }.reduce(0, +))
                 }, label: {
                     Text("Button")
                 })
-                Text(self.ans)
+                Text(answerText)
             }.padding()
         }
     }
