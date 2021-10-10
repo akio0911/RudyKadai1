@@ -10,6 +10,7 @@ let numOfForms: Int = 5
 
 struct ContentView: View {
     @State private var inputNums: [Int?] = Array(repeating: nil, count: numOfForms)
+    @State private var inputTextNums: [String] = Array(repeating: "", count: numOfForms)
     @State private var ans: String = "Label"
     var body: some View {
         ZStack {
@@ -23,18 +24,14 @@ struct ContentView: View {
             // TextField, Button, Labelを配置
             VStack(alignment: .leading, spacing: 10) {
                 ForEach(0..<5) {index in
-                    TextField("",
-                              value: $inputNums[index],
-                              formatter: NumberFormatter())
-                        .onReceive(
-                                NotificationCenter.default.publisher(for: UITextField.textDidEndEditingNotification),
-                                perform: textDidEndEditing)
+                    TextField("", text: $inputTextNums[index])
                         .keyboardType(.numberPad)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                 }
                 Button(action: {
                     UIApplication.shared.closeKeyboard()
-                    self.ans = String(inputNums.compactMap {$0}.reduce(0, +))
+                    self.ans = String(inputTextNums.compactMap {Int($0)}.reduce(0, +))
+//                    self.ans = String(inputNums.compactMap {$0}.reduce(0, +))
                 }, label: {
                     Text("Button")
                 })
@@ -42,16 +39,7 @@ struct ContentView: View {
             }.padding()
         }
     }
-    // returnを押さなくても値を反映させる
-    // Ref https://zenn.dev/konomae/articles/2f9182561b1372
-    func textDidEndEditing(_ notification: Notification) {
-        guard let textField = notification.object as? UITextField else {
-            return
-        }
-        textField.sendActions(for: .editingDidEndOnExit)
-    }
 }
-
 // 画面をタップするとキーボードを閉じる & 入力が確定する
 extension UIApplication {
     func closeKeyboard() {
